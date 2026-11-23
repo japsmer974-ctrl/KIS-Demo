@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#14532d">
+  <title>KIS Student Portal | Demo</title>
+  <style>
+    :root {
+      --green: #166534;
+      --dark: #14532d;
+      --yellow: #facc15;
+      --background: #f4f7f5;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--background);
+      color: #1f2937;
+    }
+
+    header {
+      background: var(--dark);
+    }
+
+    header img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .demo-notice {
+      padding: 12px;
+      margin-bottom: 18px;
+      background: #fef3c7;
+      border-left: 4px solid #d97706;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+
+    .welcome {
+      padding: 24px;
+      border-radius: 14px;
+      color: white;
+      background: var(--green);
+    }
+
+    .welcome h1 {
+      margin: 8px 0;
+    }
+
+    .eyebrow {
+      color: var(--yellow);
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .section-heading {
+      margin: 28px 0 14px;
+    }
+
+    .roles, .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    button, .dashboard-card {
+      padding: 17px;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      background: white;
+      color: #1f2937;
+      text-align: left;
+    }
+
+    button {
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    button.active {
+      background: var(--green);
+      color: white;
+    }
+
+    .dashboard-card h3 {
+      margin: 0 0 8px;
+      color: var(--dark);
+    }
+
+    .dashboard-card p {
+      margin: 0;
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    .role-label {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    #demo-message {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 10px;
+      background: #e5e7eb;
+      font-size: 14px;
+    }
+
+    footer {
+      padding: 25px;
+      text-align: center;
+      color: #6b7280;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="assets/kis-header-banner.jpg"
+       alt="Katipunan Integrated School">
+</header>
+
+<main>
+  <div class="demo-notice">
+    <strong>DEMO VERSION</strong><br>
+    This is an independent preview using sample content.
+    It is not connected to real school accounts or records.
+  </div>
+
+  <section class="welcome">
+    <p class="eyebrow">KATIPUNAN INTEGRATED SCHOOL</p>
+    <h1>Welcome to KIS Portal</h1>
+    <p>Explore a preview of the school portal.</p>
+  </section>
+
+  <section>
+    <div class="section-heading">
+      <h2>Choose a Demo Role</h2>
+      <p>Preview the portal from different perspectives.</p>
+    </div>
+
+    <div class="roles">
+      <button class="active" data-role="Student">Student</button>
+      <button data-role="Parent">Parent</button>
+      <button data-role="Teacher">Teacher</button>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-heading">
+      <span class="role-label" id="role-label">STUDENT PREVIEW</span>
+      <h2 id="dashboard-title">Student Dashboard</h2>
+      <p>Sample features for demonstration.</p>
+    </div>
+
+    <div class="dashboard-grid" id="dashboard"></div>
+    <div id="demo-message">
+      Select a feature to preview its demonstration message.
+    </div>
+  </section>
+</main>
+
+<footer>
+  KIS Student Portal — Independent Demo Preview
+</footer>
+
+<script>
+  const features = {
+    Student: [
+      ["Learning Center", "Lessons and learning materials"],
+      ["Attendance", "Sample attendance overview"],
+      ["Academic Records", "Illustrative academic information"],
+      ["Announcements", "Example school updates"],
+      ["Subjects", "Explore sample subjects"],
+      ["Quizzes", "Practice demonstrations"]
+    ],
+    Parent: [
+      ["Child Overview", "Sample learner information"],
+      ["Attendance", "Illustrative attendance overview"],
+      ["Academic Progress", "Sample progress information"],
+      ["Announcements", "Example school updates"],
+      ["Calendar", "Sample school activities"]
+    ],
+    Teacher: [
+      ["Class Overview", "Sample class dashboard"],
+      ["Learners", "Illustrative learner list"],
+      ["Attendance", "Sample attendance tools"],
+      ["Learning Materials", "Example teaching resources"],
+      ["Announcements", "Example school updates"],
+      ["Calendar", "Sample school activities"]
+    ]
+  };
+
+  const dashboard = document.getElementById("dashboard");
+  const message = document.getElementById("demo-message");
+
+  function renderRole(role) {
+    document.getElementById("role-label").textContent =
+      role.toUpperCase() + " PREVIEW";
+
+    document.getElementById("dashboard-title").textContent =
+      role + " Dashboard";
+
+    dashboard.innerHTML = "";
+
+    features[role].forEach(([name, description]) => {
+      const card = document.createElement("article");
+      card.className = "dashboard-card";
+
+      const title = document.createElement("h3");
+      title.textContent = name;
+
+      const detail = document.createElement("p");
+      detail.textContent = description;
+
+      card.append(title, detail);
+
+      card.addEventListener("click", () => {
+        message.textContent =
+          name + " — This is a demonstration only. No real school data is accessed.";
+      });
+
+      dashboard.appendChild(card);
+    });
+
+    message.textContent =
+      role + " preview selected. Choose a feature to explore.";
+  }
+
+  document.querySelectorAll("[data-role]").forEach(button => {
+    button.addEventListener("click", () => {
+      document.querySelectorAll("[data-role]").forEach(item => {
+        item.classList.remove("active");
+      });
+
+      button.classList.add("active");
+      renderRole(button.dataset.role);
+    });
+  });
+
+  renderRole("Student");
+</script>
+
+</body>
+</html>
+
